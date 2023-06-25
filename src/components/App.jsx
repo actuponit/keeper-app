@@ -1,9 +1,8 @@
-import React, {useState} from "react"
+import React, {useState, useEffect} from "react"
 import Header from "./Header";
 import Footer from "./Footer";
 import Addnote from "./Addnote";
 import Note from "./Note";
-
 
 const notes = []
 
@@ -18,14 +17,23 @@ function App() {
     const [note, changeNote] = useState(notes)
     const [newKey, updateKey] = useState(26)
 
+    useEffect(()=>{
+        fetch("/api").then((res)=>{
+            console.log(res)
+            return res.json()}).catch((e)=>console.log(e))
+    })
+
     function addNotes(e, titleField, bodyField) {
         
         e.preventDefault();
         
         let newTitle = titleField.value; 
-        let newBody = bodyField.value; 
-        if(newBody === "") return;
-        else if (newTitle === "") newTitle = "Untitled";
+        const newBody = bodyField.value;
+        
+        //Handle empty fields
+        if(newBody.trim() === "") return;
+        else if (newTitle.trim() === "") newTitle = "Untitled";
+        
         changeNote( prevValue => ([...prevValue, {
             key: newKey, 
             title: newTitle,
@@ -43,22 +51,21 @@ function App() {
     }
 
     function deleteNotes(e, key) {
-        console.log(e.target);
+
+        //Show effect when deleted
         let curr = e.target.parentNode;
-
-        while(!curr.classList.contains('note')) curr = curr.parentNode;
-
+        while(!curr.classList.contains('note')) curr = curr.parentNode; //traverse to the note container
         curr.style.opacity = 0
         
+        //After the effect has finished do the real job
         wait().then(()=>{
             changeNote(prevValue => 
                 prevValue.filter(value => value.key !== key)
             )
         })
-        // e.target.parentNode.parentNode.style.opacity = "0";
 
     }
-    console.log(note)
+
     return (
     <>
     <Header />
