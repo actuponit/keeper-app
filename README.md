@@ -1,6 +1,10 @@
-# Getting Started with Create React App
+# keeper-app
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a simple app that took an inspiration from the google keeper note managing app. 
+I have used react js as my front end framework material ui libraries.
+Every thing is functional, interactive and nice.
+I am trying to add a restful backend api to it to make it a little more dynamic. 
+
 
 ## Available Scripts
 
